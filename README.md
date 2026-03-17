@@ -104,6 +104,18 @@ npm start
 4. Configure **Notifications** if you want Discord, Slack, or Telegram alerts
 5. Messages will start appearing automatically
 
+### Data Storage
+
+All settings (API keys, phone numbers, notification config, poll intervals) are stored locally by [electron-store](https://github.com/sindresorhus/electron-store) at:
+
+| OS | Path |
+|----|------|
+| Windows | `%APPDATA%\Quack Manager\config.json` |
+| macOS | `~/Library/Application Support/Quack Manager/config.json` |
+| Linux | `~/.config/Quack Manager/config.json` |
+
+API keys are stored in plain text in this file. Do not share it.
+
 ## Tech Stack
 
 - [Electron](https://www.electronjs.org/) - Desktop app framework
