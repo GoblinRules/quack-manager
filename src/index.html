@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quack Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Custom title bar -->
+  <div class="titlebar">
+    <div class="titlebar-drag">
+      <img src="../assets/icon2.png" class="titlebar-icon" alt="Quack">
+      <span class="titlebar-title">Quack Manager</span>
+    </div>
+    <div class="titlebar-controls">
+      <button class="titlebar-btn" id="btn-minimize">&#x2013;</button>
+      <button class="titlebar-btn" id="btn-maximize">&#x25A1;</button>
+      <button class="titlebar-btn titlebar-btn-close" id="btn-close">&#x2715;</button>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Numbers</h2>
+        <div class="sidebar-search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="sidebar-search-input" placeholder="Search..." class="sidebar-search-input">
+        </div>
+      </div>
+      <div class="sidebar-inbox" id="sidebar-inbox">
+        <div class="sidebar-number" id="btn-inbox" data-number="__inbox__">
+          <div class="sidebar-inbox-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
+          </div>
+          <div class="sidebar-number-info">
+            <div class="sidebar-number-name">Inbox</div>
+            <div class="sidebar-number-num">All messages</div>
+          </div>
+          <span class="sidebar-badge" id="inbox-badge" style="display:none;">0</span>
+        </div>
+      </div>
+      <div class="sidebar-numbers" id="sidebar-numbers">
+        <div class="sidebar-empty">No numbers configured. Go to Settings to add phone numbers.</div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="sidebar-balance" id="sidebar-balance" style="display:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          <span id="sidebar-balance-text">--</span>
+        </div>
+        <button class="sidebar-btn" id="btn-settings" title="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </button>
+        <button class="sidebar-btn" id="btn-theme" title="Toggle theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <span>Theme</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <!-- Dashboard view -->
+      <div class="view" id="view-dashboard">
+        <div class="dashboard-welcome" id="dashboard-welcome">
+          <img src="../assets/icon2.png" class="welcome-icon" alt="">
+          <h1>Quack Manager</h1>
+          <p>Select a phone number from the sidebar to view messages, or go to Settings to add numbers.</p>
+        </div>
+        <div class="messages-container" id="messages-container" style="display:none;">
+          <div class="messages-header" id="messages-header"></div>
+          <div class="messages-list" id="messages-list"></div>
+        </div>
+      </div>
+
+      <!-- Settings view -->
+      <div class="view" id="view-settings" style="display:none;">
+        <div class="settings-layout">
+          <!-- Settings sidebar tabs -->
+          <nav class="settings-nav">
+            <div class="settings-nav-header">Settings</div>
+            <button class="settings-tab active" data-tab="tab-api-keys">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+              API Keys
+            </button>
+            <button class="settings-tab" data-tab="tab-phone-numbers">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              Phone Numbers
+            </button>
+            <button class="settings-tab" data-tab="tab-polling">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Polling
+            </button>
+            <button class="settings-tab" data-tab="tab-notifications">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+              Notifications
+            </button>
+            <button class="settings-tab" data-tab="tab-account">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Account
+            </button>
+            <button class="settings-tab" data-tab="tab-webhooks">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+              Webhooks
+            </button>
+            <button class="settings-tab" data-tab="tab-help">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Help / About
+            </button>
+          </nav>
+
+          <!-- Settings content panels -->
+          <div class="settings-content">
+            <!-- API Keys tab -->
+            <div class="settings-panel active" id="tab-api-keys">
+              <div class="settings-panel-header">
+                <h2>API Keys</h2>
+              </div>
+              <div id="api-keys-list"></div>
+              <button class="btn btn-primary" id="btn-add-api-key">+ Add API Key</button>
+            </div>
+
+            <!-- Phone Numbers tab -->
+            <div class="settings-panel" id="tab-phone-numbers">
+              <div class="settings-panel-header">
+                <h2>Phone Numbers</h2>
+                <div class="search-box">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input type="text" id="phone-search" class="input search-input" placeholder="Search numbers or names...">
+                </div>
+              </div>
+              <div id="phone-numbers-list"></div>
+              <div class="phone-numbers-footer">
+                <button class="btn btn-primary" id="btn-add-phone">+ Add Phone Number</button>
+                <span class="phone-count" id="phone-count"></span>
+              </div>
+            </div>
+
+            <!-- Polling tab -->
+            <div class="settings-panel" id="tab-polling">
+              <div class="settings-panel-header">
+                <h2>Polling</h2>
+              </div>
+              <div class="form-group">
+                <label>Global Poll Interval (seconds)</label>
+                <input type="number" id="global-poll-interval" min="5" max="300" value="10" class="input">
+                <p class="form-help">Individual phone numbers can override this in the Phone Numbers tab.</p>
+              </div>
+            </div>
+
+            <!-- Notifications tab -->
+            <div class="settings-panel" id="tab-notifications">
+              <div class="settings-panel-header">
+                <h2>Notifications</h2>
+              </div>
+
+              <div class="notif-row">
+                <label class="toggle-label">
+                  <input type="checkbox" id="notif-desktop" class="toggle">
+                  <span>Desktop Notifications</span>
+                </label>
+                <button class="btn-test" id="btn-test-desktop">Test</button>
+              </div>
+
+              <hr class="settings-divider">
+
+              <!-- Discord -->
+              <div class="notif-service">
+                <div class="notif-row">
+                  <label class="toggle-label">
+                    <input type="checkbox" id="notif-discord-enabled" class="toggle">
+                    <span>Discord</span>
+                  </label>
+                  <button class="btn-test" id="btn-test-discord" style="display:none;">Test</button>
+                </div>
+                <div class="notif-service-config" id="discord-config" style="display:none;">
+                  <div class="form-group">
+                    <label>Method</label>
+                    <select id="discord-method" class="input">
+                      <option value="webhook">Webhook</option>
+                      <option value="bot">Bot</option>
+                    </select>
+                  </div>
+                  <div id="discord-webhook-fields">
+                    <div class="form-group">
+                      <label>Webhook URL</label>
+                      <input type="text" id="discord-webhook-url" class="input" placeholder="https://discord.com/api/webhooks/...">
+                    </div>
+                  </div>
+                  <div id="discord-bot-fields" style="display:none;">
+                    <div class="form-group">
+                      <label>Bot Token</label>
+                      <input type="password" id="discord-bot-token" class="input" placeholder="Bot token">
+                    </div>
+                    <div class="form-group">
+                      <label>Channel ID</label>
+                      <input type="text" id="discord-channel-id" class="input" placeholder="Channel ID">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="settings-divider">
+
+              <!-- Slack -->
+              <div class="notif-service">
+                <div class="notif-row">
+                  <label class="toggle-label">
+                    <input type="checkbox" id="notif-slack-enabled" class="toggle">
+                    <span>Slack</span>
+                  </label>
+                  <button class="btn-test" id="btn-test-slack" style="display:none;">Test</button>
+                </div>
+                <div class="notif-service-config" id="slack-config" style="display:none;">
+                  <div class="form-group">
+                    <label>Method</label>
+                    <select id="slack-method" class="input">
+                      <option value="webhook">Webhook</option>
+                      <option value="bot">Bot</option>
+                    </select>
+                  </div>
+                  <div id="slack-webhook-fields">
+                    <div class="form-group">
+                      <label>Webhook URL</label>
+                      <input type="text" id="slack-webhook-url" class="input" placeholder="https://hooks.slack.com/services/...">
+                    </div>
+                  </div>
+                  <div id="slack-bot-fields" style="display:none;">
+                    <div class="form-group">
+                      <label>Bot Token</label>
+                      <input type="password" id="slack-bot-token" class="input" placeholder="xoxb-...">
+                    </div>
+                    <div class="form-group">
+                      <label>Channel ID</label>
+                      <input type="text" id="slack-channel-id" class="input" placeholder="Channel ID">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="settings-divider">
+
+              <!-- Telegram -->
+              <div class="notif-service">
+                <div class="notif-row">
+                  <label class="toggle-label">
+                    <input type="checkbox" id="notif-telegram-enabled" class="toggle">
+                    <span>Telegram</span>
+                  </label>
+                  <button class="btn-test" id="btn-test-telegram" style="display:none;">Test</button>
+                </div>
+                <div class="notif-service-config" id="telegram-config" style="display:none;">
+                  <div class="form-group">
+                    <label>Bot Token</label>
+                    <input type="password" id="telegram-bot-token" class="input" placeholder="123456:ABC-DEF...">
+                  </div>
+                  <div class="form-group">
+                    <label>Chat ID</label>
+                    <input type="text" id="telegram-chat-id" class="input" placeholder="Chat ID">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Account tab -->
+            <div class="settings-panel" id="tab-account">
+              <div class="settings-panel-header">
+                <h2>Account</h2>
+                <button class="btn-action" id="btn-refresh-account">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+                  Refresh
+                </button>
+              </div>
+
+              <div class="account-balance-card" id="account-balance-card">
+                <div class="account-balance-label">Account Balance</div>
+                <div class="account-balance-value" id="account-balance">--</div>
+              </div>
+
+              <hr class="settings-divider">
+
+              <div class="settings-panel-header">
+                <h2>Active Numbers</h2>
+                <button class="btn btn-primary btn-small" id="btn-import-numbers">Import from Quackr</button>
+              </div>
+              <p class="form-help" style="margin-bottom:12px;">Import your active numbers from Quackr.io. This will add any numbers not already in your list.</p>
+              <div id="active-numbers-list" class="active-numbers-list"></div>
+
+              <hr class="settings-divider">
+
+              <h3 style="margin-bottom:12px; font-size:16px;">Expiring Soon</h3>
+              <p class="form-help" style="margin-bottom:12px;">Numbers expiring within the next 24 hours.</p>
+              <div id="expiring-numbers-list" class="expiring-numbers-list"></div>
+            </div>
+
+            <!-- Webhooks tab -->
+            <div class="settings-panel" id="tab-webhooks">
+              <div class="settings-panel-header">
+                <h2>Webhooks</h2>
+              </div>
+              <p class="form-help" style="margin-bottom:16px;">Configure a webhook URL so Quackr.io sends SMS notifications directly to your endpoint in real-time, instead of relying solely on polling.</p>
+              <div class="form-group">
+                <label>Current Webhook URL</label>
+                <div id="webhook-current" class="webhook-current">Loading...</div>
+              </div>
+              <div class="form-group">
+                <label>New Webhook URL</label>
+                <input type="text" id="webhook-url-input" class="input" placeholder="https://your-server.com/webhook">
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-primary" id="btn-set-webhook">Save Webhook</button>
+                <button class="btn btn-secondary" id="btn-refresh-webhook">Refresh</button>
+              </div>
+            </div>
+
+            <!-- Help / About tab -->
+            <div class="settings-panel" id="tab-help">
+              <div class="settings-panel-header">
+                <h2>Help / About</h2>
+              </div>
+
+              <div class="about-card">
+                <div class="about-app-info">
+                  <img src="../assets/icon2.png" alt="Quack Manager" class="about-icon">
+                  <div>
+                    <h3>Quack Manager</h3>
+                    <span class="about-version" id="about-version">v1.0.0</span>
+              
