@@ -215,6 +215,20 @@ function startPollerForNumber(entry) {
     if (result.success === 'true' || result.success === true) {
       const messages = result.data?.messages || [];
       const lastSeen = lastSeenTimestamps.get(entry.number) || 0;
+      const isFirstSync = lastSeen === 0;
+
+      if (isFirstSync && messages.length > 0) {
+        // First poll for this number — set watermark, send to renderer, but skip notifications
+        const maxTs = Math.max(...messages.map(m => m.received));
+        lastSeenTimestamps.set(entry.number, maxTs);
+        persistTimestamps();
+        mainWindow?.webContents.send('new-messages', {
+          phoneNumber: entry.number,
+          messages: messages
+        });
+        return;
+      }
+
       const newMessages = messages.filter(m => m.received > lastSeen);
 
       if (newMessages.length > 0) {
@@ -230,11 +244,6 @@ function startPollerForNumber(entry) {
         for (const msg of newMessages) {
           sendNotifications(entry, msg);
         }
-      } else if (lastSeen === 0 && messages.length > 0) {
-        // First poll, just set the watermark
-        const maxTs = Math.max(...messages.map(m => m.received));
-        lastSeenTimestamps.set(entry.number, maxTs);
-        persistTimestamps();
       }
     }
   };
@@ -246,9 +255,10 @@ function startPollerForNumber(entry) {
 
 function startAllPollers() {
   const phoneNumbers = store.get('phoneNumbers');
-  for (const entry of phoneNumbers) {
-    startPollerForNumber(entry);
-  }
+  // Stagger initial polls by 500ms each to avoid flooding API and notifications
+  phoneNumbers.forEach((entry, i) => {
+    setTimeout(() => startPollerForNumber(entry), i * 500);
+  });
 }
 
 function stopAllPollers() {
