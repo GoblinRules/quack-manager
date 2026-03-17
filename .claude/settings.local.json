@@ -9,7 +9,21 @@
       "Bash(gh repo:*)",
       "Bash(git push:*)",
       "Bash(git config:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(git filter-branch:*)",
+      "Bash(git stash:*)",
+      "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --force --index-filter 'git rm -r --cached --ignore-unmatch node_modules' --prune-empty HEAD)",
+      "Bash(mv ClearShot_20260317_182233.png dashboard.png)",
+      "Bash(mv ClearShot_20260317_182340.png settings-api-keys.png)",
+      "Bash(mv ClearShot_20260317_182448.png settings-phone-numbers.png)",
+      "Bash(mv ClearShot_20260317_182510.png settings-notifications.png)",
+      "Bash(mv ClearShot_20260317_182526.png settings-account.png)",
+      "Bash(mv ClearShot_20260317_182541.png settings-webhooks.png)",
+      "Bash(mv ClearShot_20260317_182556.png settings-help.png)",
+      "Bash(mv ClearShot_20260317_182715.png notification.png)",
+      "Bash(gh release:*)",
+      "Bash(npm install:*)",
+      "Bash(npx electron-builder:*)"
     ]
   }
 }
