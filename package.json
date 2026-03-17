@@ -1,15 +1,54 @@
 {
-  "name": "Quack Manager",
+  "name": "quack-manager",
+  "productName": "Quack Manager",
   "version": "1.0.0",
   "description": "Manage multiple Quackr.io phone numbers and SMS messages",
   "main": "main.js",
+  "author": "GoblinRules",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GoblinRules/quack-manager"
+  },
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.goblinrules.quack-manager",
+    "productName": "Quack Manager",
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Quack Manager",
+      "uninstallDisplayName": "Quack Manager",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "assets/icon.ico",
+      "assets/icon.png",
+      "assets/icon2.png",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    }
   },
   "dependencies": {
     "electron-store": "^8.1.0"
   },
   "devDependencies": {
-    "electron": "^28.0.0"
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
   }
 }
