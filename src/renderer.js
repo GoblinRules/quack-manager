@@ -45,10 +45,6 @@ function setupNavigation() {
   document.getElementById('btn-settings').addEventListener('click', () => showView('settings'));
   document.getElementById('btn-theme').addEventListener('click', toggleTheme);
   document.getElementById('btn-inbox').addEventListener('click', () => selectInbox());
-  document.getElementById('link-quackr').addEventListener('click', (e) => {
-    e.preventDefault();
-    window.quack.openExternal('https://quackr.io');
-  });
 }
 
 // Sidebar search

@@ -32,5 +32,8 @@ contextBridge.exposeInMainWorld('quack', {
   getNickname: (phoneNumber, apiKeyId) => ipcRenderer.invoke('quackr-get-nickname', phoneNumber, apiKeyId),
   setNickname: (phoneNumber, nickname, apiKeyId) => ipcRenderer.invoke('quackr-set-nickname', phoneNumber, nickname, apiKeyId),
   getWebhook: (apiKeyId) => ipcRenderer.invoke('quackr-get-webhook', apiKeyId),
-  setWebhook: (webhookUrl, apiKeyId) => ipcRenderer.invoke('quackr-set-webhook', webhookUrl, apiKeyId)
+  setWebhook: (webhookUrl, apiKeyId) => ipcRenderer.invoke('quackr-set-webhook', webhookUrl, apiKeyId),
+
+  // Updates
+  checkForUpdates: () => ipcRenderer.invoke('check-for-updates')
 });

@@ -103,6 +103,21 @@ function setupSettingsListeners() {
   // Webhooks
   replacer('btn-set-webhook').addEventListener('click', saveWebhook);
   replacer('btn-refresh-webhook').addEventListener('click', loadWebhookData);
+
+  // Help / About links
+  replacer('link-quackr-site').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.quack.openExternal('https://quackr.io');
+  });
+  replacer('link-api-docs').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.quack.openExternal('https://api.quackr.io');
+  });
+  replacer('link-github').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.quack.openExternal('https://github.com/GoblinRules/quack-manager');
+  });
+  replacer('btn-check-update').addEventListener('click', checkForUpdates);
 }
 
 // API Keys
@@ -506,6 +521,43 @@ async function saveWebhook() {
   }
 
   btn.textContent = 'Save Webhook';
+  btn.disabled = false;
+}
+
+// === Help / About ===
+async function checkForUpdates() {
+  const btn = document.getElementById('btn-check-update');
+  const statusEl = document.getElementById('update-status');
+  btn.textContent = 'Checking...';
+  btn.disabled = true;
+  statusEl.textContent = '';
+  statusEl.className = 'about-update-status';
+
+  const result = await window.quack.checkForUpdates();
+
+  if (result.error) {
+    statusEl.textContent = result.error;
+    statusEl.className = 'about-update-status update-error';
+  } else if (result.upToDate) {
+    statusEl.textContent = `You're up to date! (v${result.currentVersion})`;
+    statusEl.className = 'about-update-status update-ok';
+  } else {
+    statusEl.innerHTML = `New version available: <strong>v${result.latestVersion}</strong> (current: v${result.currentVersion})`;
+    statusEl.className = 'about-update-status update-available';
+
+    // Add a link to the release page
+    const link = document.createElement('a');
+    link.href = '#';
+    link.textContent = ' View release';
+    link.style.marginLeft = '8px';
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.quack.openExternal(`https://github.com/GoblinRules/quack-manager/releases/tag/v${result.latestVersion}`);
+    });
+    statusEl.appendChild(link);
+  }
+
+  btn.textContent = 'Check for Updates';
   btn.disabled = false;
 }
 

@@ -955,3 +955,107 @@ select.input {
   from { opacity: 1; }
   to { opacity: 0; }
 }
+
+/* Help / About */
+.about-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.about-app-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.about-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.about-app-info h3 {
+  font-size: 20px;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.about-version {
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: var(--bg-input);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.about-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.about-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.about-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.about-link:hover {
+  background: var(--bg-input);
+  border-color: var(--accent);
+}
+
+.about-link svg {
+  flex-shrink: 0;
+}
+
+.about-update-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.about-update-status {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.about-update-status.update-ok {
+  color: var(--success);
+}
+
+.about-update-status.update-available {
+  color: var(--accent);
+}
+
+.about-update-status.update-error {
+  color: var(--danger);
+}
+
+.about-update-status a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.about-update-status a:hover {
+  text-decoration: underline;
+}

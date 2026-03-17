@@ -328,4 +328,50 @@
                   <div>
                     <h3>Quack Manager</h3>
                     <span class="about-version" id="about-version">v1.0.0</span>
-              
+                  </div>
+                </div>
+                <p class="about-description">Manage multiple Quackr.io virtual phone numbers, view incoming SMS messages, and get notifications across desktop, Discord, Slack, and Telegram.</p>
+              </div>
+
+              <hr class="settings-divider">
+
+              <h3 style="margin-bottom:12px; font-size:16px;">Links</h3>
+              <div class="about-links">
+                <a href="#" class="about-link" id="link-quackr-site">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  Quackr.io
+                </a>
+                <a href="#" class="about-link" id="link-api-docs">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                  API Documentation
+                </a>
+                <a href="#" class="about-link" id="link-github">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                  GitHub Repository
+                </a>
+              </div>
+
+              <hr class="settings-divider">
+
+              <h3 style="margin-bottom:12px; font-size:16px;">Updates</h3>
+              <div class="about-update-section">
+                <button class="btn btn-primary" id="btn-check-update">Check for Updates</button>
+                <div id="update-status" class="about-update-status"></div>
+              </div>
+            </div>
+
+            <!-- Save/Cancel always visible -->
+            <div class="settings-actions">
+              <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
+              <button class="btn btn-secondary" id="btn-cancel-settings">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>

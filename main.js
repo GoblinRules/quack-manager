@@ -167,6 +167,28 @@ ipcMain.handle('quackr-set-webhook', async (_, webhookUrl, apiKeyId) => {
   return await quackrApi('/webhook', { method: 'POST', body: { webhookUrl }, apiKeyId });
 });
 
+// Check for updates
+ipcMain.handle('check-for-updates', async () => {
+  try {
+    const currentVersion = require('./package.json').version;
+    const res = await fetch('https://api.github.com/repos/GoblinRules/quack-manager/releases/latest', {
+      headers: { 'User-Agent': 'QuackManager' }
+    });
+    if (!res.ok) {
+      return { error: 'Could not check for updates. GitHub API returned ' + res.status };
+    }
+    const data = await res.json();
+    const latestVersion = (data.tag_name || '').replace(/^v/, '');
+    if (!latestVersion) {
+      return { error: 'No releases found.' };
+    }
+    const upToDate = latestVersion === currentVersion;
+    return { currentVersion, latestVersion, upToDate };
+  } catch (err) {
+    return { error: err.message };
+  }
+});
+
 // Polling engine
 async function fetchSms(phoneNumber, apiKey) {
   try {
